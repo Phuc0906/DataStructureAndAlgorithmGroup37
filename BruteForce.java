@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class FindingGoldSnapsack {
+public class BruteForce {
     static LinkedListStack efficientPath = new LinkedListStack();
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -45,6 +45,7 @@ public class FindingGoldSnapsack {
         list.pop();
     }
 }
+
 
 class State {
     int row;
