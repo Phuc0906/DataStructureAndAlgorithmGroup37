@@ -9,6 +9,10 @@ public class DynamicProgramming {
         // getting the row and column
         int row = scanner.nextInt();
         int column = scanner.nextInt();
+        if ((row > 27) || (column > 27)) {
+            System.out.println("Map cannot be process");
+            return;
+        }
         scanner.nextLine();
         
         String[][] matrix = new String[row][column];

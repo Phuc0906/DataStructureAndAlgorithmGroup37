@@ -6,6 +6,10 @@ public class ExhaustiveSearch {
         Scanner scanner = new Scanner(System.in);
         int row = scanner.nextInt();
         int column = scanner.nextInt();
+        if ((row > 27) || (column > 27)) {
+            System.out.println("Map cannot be process");
+            return;
+        }
         scanner.nextLine();
         String[][] matrix = new String[row][column];
         for (int i = 0; i < row; i++) {
