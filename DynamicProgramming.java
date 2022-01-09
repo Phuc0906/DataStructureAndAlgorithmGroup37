@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class FindingGoldDijkstra {
+public class DynamicProgramming {
     public static void main(String[] args) {
         // process the map into the maze
         Scanner scanner = new Scanner(System.in);
@@ -19,10 +19,6 @@ public class FindingGoldDijkstra {
             if (lines.length > column) {
                 System.out.println("Map cannot be processes");
                 return;
-            }
-            // check if the current row is still less than the input row => get next lines
-            if (row - i != 1) {
-                scanner.nextLine();
             }
 
             // get each element in the column
@@ -128,7 +124,7 @@ public class FindingGoldDijkstra {
             visisted[node] = 1;
 
             // traverse all neighbour node of that node
-            for (int i = 0; i < adjMatrix[node].length - 1; i++) {
+            for (int i = 0; i < 2; i++) {
                 // if its neighbour is mark as -1 => ignore it
                 if (adjMatrix[node][i] == -1) {
                     continue;
@@ -168,19 +164,7 @@ public class FindingGoldDijkstra {
                     
                     continue;
                 }
-                
-                // if that neighbour has gold value already, check if the current node add  combine with the neighbour node gold is greater than its current gold value => update the newGold value
-                int newGold = totalGold[node] + adjMatrix[adjMatrix[node][i]][2];
-                if (newGold > totalGold[adjMatrix[node][i]]) {
-                    if (newGold > maxGold) {
-                        maxGold =  newGold;
-                        maxINdex = adjMatrix[node][i];
-                    }
-                    prevNode[adjMatrix[node][i]] = node;
-                    totalGold[adjMatrix[node][i]] = newGold;
-                    pq.insert(adjMatrix[node][i], totalGold[adjMatrix[node][i]]);
-                    
-                }
+        
             }
         }
 
@@ -206,8 +190,6 @@ public class FindingGoldDijkstra {
 
         // traverse all node in the original matrix
         for (int i = 0; i < (row*col); i++) {
-            // count variable to track the current setting of the node (right or down neighbour or setting gold)
-            int count = 0;
 
             // track if the cTracking is greater or equal column => reset and insrease rTracking
             if (cTracking >= col) {
@@ -226,43 +208,41 @@ public class FindingGoldDijkstra {
             // setting the node components
             for (int j = 0; j < 3; j++) {
                 // if count == 0 => process right neighbour
-                if (count == 0) {
+                if (j == 0) {
                     // if it is the edge node or its right neighbour is X => mark -1, if not mark the neighbour value
                     if (cTracking + 1 < col) {
                         if (!matrix[rTracking][cTracking + 1].equals("X")) {
-                            adjMatrix[i][count] = i + 1;
+                            adjMatrix[i][j] = i + 1;
                         }else {
-                            adjMatrix[i][count] = -1;
+                            adjMatrix[i][j] = -1;
                         }
                         
                     }else {
-                        adjMatrix[i][count] = -1;
+                        adjMatrix[i][j] = -1;
                     }
                 // if count == 1 => process down neighbour
-                }else if (count == 1) {
+                }else if (j == 1) {
                     // if it is the edge node or its down neighbour is X => mark -1, if not mark the neighbour value
                     if (rTracking + 1 < row) {
                         if (!matrix[rTracking + 1][cTracking].equals("X")) {
-                            adjMatrix[i][count] = i + col;
+                            adjMatrix[i][j] = i + col;
                         }else {
-                            adjMatrix[i][count] = -1;
+                            adjMatrix[i][j] = -1;
                         }
                         
                     }else {
-                        adjMatrix[i][count] = -1;
+                        adjMatrix[i][j] = -1;
                     }
                 // the rest case is process the gold, if the node character is  . and X => set 0 or set the gold using Interger.parseInt();
-                }else if (count == 2) {
+                }else if (j == 2) {
                     if ((!matrix[rTracking][cTracking].equals(".")) && (!matrix[rTracking][cTracking].equals("X"))) {
-                        adjMatrix[i][count] = Integer.parseInt(matrix[rTracking][cTracking]);
+                        adjMatrix[i][j] = Integer.parseInt(matrix[rTracking][cTracking]);
                     }else {
-                        adjMatrix[i][count] = 0;
+                        adjMatrix[i][j] = 0;
                     }
                 }else {
 
                 }
-                // increase count to set the next component
-                count++;
             }
             // increase the cTracking to track the next node
             cTracking++;
@@ -409,7 +389,7 @@ class PriorityQueue {
     }
 
     private int getParent(int i) {
-        return (i - 2) / 2;
+        return (i - 1) / 2;
     }
 
     private int getLeftChild(int i) {

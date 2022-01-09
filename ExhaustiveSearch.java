@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class BruteForce {
+public class ExhaustiveSearch {
     static LinkedListStack efficientPath = new LinkedListStack();
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -15,10 +15,6 @@ public class BruteForce {
             if (lines.length > column) {
                 System.out.println("Map cannot be processes");
                 return;
-            }
-            // check if the current row is still less than the input row => get next lines
-            if (row - i != 1) {
-                scanner.nextLine();
             }
 
             // get each element in the column
@@ -57,11 +53,6 @@ public class BruteForce {
 
         // check if the current position is out of map => break
         if ((row >= matrix.length) || (column >= matrix[0].length)) {
-            return;
-        }
-
-        // if the program reach the last node of the map (right bottom) => break
-        if ((row + 1 >= matrix.length) && (column + 1 >= matrix[0].length)) {
             return;
         }
 
